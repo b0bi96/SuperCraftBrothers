@@ -26,6 +26,7 @@ public class LivesManager {
             } else {
                 playerLives.put(playerNick, 0);
                 player.sendMessage("Przegrales, jestes spec!");
+                PlayerManager.changePlayerState(player, PlayerManager.PlayerState.SPECTATOR);
             }
         }
     }

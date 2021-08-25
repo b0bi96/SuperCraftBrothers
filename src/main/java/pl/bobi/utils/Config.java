@@ -12,6 +12,7 @@ public class Config {
 
     public static String MAP_NAME, PLUGIN_VERSION, SPAWNPOINT_SPECTATOR, SPAWN_LOBBY;
     public static List<String> SPAWNPOINTS;
+    public static int MAX_SLOTS;
 
     private static final FileConfiguration config = BobiSCB.getPlugin().getConfig();
 
@@ -21,5 +22,6 @@ public class Config {
         SPAWNPOINT_SPECTATOR = config.getString("spectator");
         SPAWN_LOBBY = config.getString("lobby");
         SPAWNPOINTS = config.getStringList("spawnpoints");
+        MAX_SLOTS = config.getInt("slots");
     }
 }

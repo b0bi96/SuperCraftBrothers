@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.bobi.commands.StartCommand;
 import pl.bobi.events.overall.*;
 import pl.bobi.manager.GameManager;
+import pl.bobi.manager.PlayerManager;
 import pl.bobi.utils.Config;
 
 public final class BobiSCB extends JavaPlugin {
@@ -36,6 +37,8 @@ public final class BobiSCB extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelAllTasks();
+        PlayerManager.getPlayers().clear();
+        PlayerManager.getSpecPlayers().clear();
     }
 
     public void registerEvents(Plugin plugin, Listener... listeners) {

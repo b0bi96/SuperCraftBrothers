@@ -1,5 +1,6 @@
 package pl.bobi.manager;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -15,6 +16,7 @@ public class KitsManager {
 
     private final GameManager gameManager;
 
+    @Getter
     private static Map<String, String> playerKit;
 
     public KitsManager(GameManager gameManager) {
@@ -24,7 +26,7 @@ public class KitsManager {
 
     public void giveKits() {
         for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.getGameMode() == GameMode.SURVIVAL) { // && player !is a spec TODO
+            if (player.getGameMode() == GameMode.SURVIVAL && PlayerManager.getPlayers().contains(player.getDisplayName())) {
                 if (!playerKit.isEmpty()) {
                     this.giveClassItems(player, playerKit.get(player.getDisplayName()));
                 }

@@ -45,6 +45,7 @@ public class GameManager {
                 this.inGameScoreTask = new InGameScoreTask(this);
                 this.inGameScoreTask.runTaskTimer(plugin, 0, 20);
                 getPlayerManager().giveKits();
+                KitsManager.getPlayerKit().clear();
                 break;
             case END:
                 //
