@@ -1,0 +1,7 @@
+name: BobiSCB
+version: @version@
+main: pl.bobi.BobiSCB
+authors: [ bobi96 ]
+
+commands:
+  start:
