@@ -1,6 +1,5 @@
 package pl.bobi.manager;
 
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -15,12 +14,12 @@ import java.util.Map;
 public class KitsManager {
 
     private final GameManager gameManager;
-    @Getter
-    private final Map<String, String> playerKit;
+
+    private static Map<String, String> playerKit;
 
     public KitsManager(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.playerKit = new HashMap<>();
+        playerKit = new HashMap<>();
     }
 
     public void giveKits() {
@@ -46,4 +45,12 @@ public class KitsManager {
         }
     }
 
+    public static void addKitToPlayer(Player player, String kitName) {
+        String playerNick = player.getDisplayName();
+        if (playerKit.containsKey(playerNick)) {
+            playerKit.replace(playerNick, kitName);
+        } else {
+            playerKit.put(playerNick, kitName);
+        }
+    }
 }

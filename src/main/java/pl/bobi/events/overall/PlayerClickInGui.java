@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.ItemStack;
+import pl.bobi.manager.KitsManager;
 
 public class PlayerClickInGui implements Listener {
 
@@ -19,8 +20,10 @@ public class PlayerClickInGui implements Listener {
         if (player == null) return;
         if (!e.getInventory().getTitle().equals(ChatColor.AQUA + "Wybor klasy")) return;
 
+        KitsManager.addKitToPlayer(player, itemStack.getItemMeta().getDisplayName());
         player.sendMessage("Wybrales klase: " + itemStack.getItemMeta().getDisplayName());
 
         e.setCancelled(true);
+        player.closeInventory();
     }
 }
