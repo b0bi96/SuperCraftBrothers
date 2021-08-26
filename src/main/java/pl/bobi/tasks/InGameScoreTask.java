@@ -5,6 +5,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 import pl.bobi.builders.scoreboards.InGameScore;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
+import pl.bobi.manager.LivesManager;
 
 public class InGameScoreTask extends BukkitRunnable {
 
@@ -21,5 +22,7 @@ public class InGameScoreTask extends BukkitRunnable {
     public void run() {
         if(!(gameManager.getGameState() == GameState.INGAME)) this.cancel();
         getInGameScore().createInGameScore();
+
+        LivesManager.blockMapYBorder();
     }
 }

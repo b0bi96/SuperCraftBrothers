@@ -10,6 +10,9 @@ import pl.bobi.builders.items.ChooseKitItem;
 import pl.bobi.builders.scoreboards.StartLobbyScore;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
+import pl.bobi.manager.PlayerManager;
+
+import static pl.bobi.manager.PlayerManager.preparePlayerToGame;
 
 
 public class PlayerJoinQuit implements Listener {
@@ -29,9 +32,10 @@ public class PlayerJoinQuit implements Listener {
             startLobbyScore.createStartScore(0);
         } else {
             player.kickPlayer("GRA JUZ SIE ZACZELA :(");
+            return;
         }
-        player.setHealth(20);
-        player.setFoodLevel(20);
+        preparePlayerToGame(player);
+        PlayerManager.teleportPlayer(player, "lobby");
         player.getInventory().addItem(ChooseKitItem.itemStack());
         e.setJoinMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " doloczyl do areny!");
     }
@@ -39,7 +43,6 @@ public class PlayerJoinQuit implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        player.getInventory().clear();
         e.setQuitMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " wyszedl z areny!");
     }
 }
