@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.bobi.commands.StartCommand;
+import pl.bobi.events.ingame.PlayerDeath;
 import pl.bobi.events.overall.*;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.PlayerManager;
@@ -29,7 +30,10 @@ public final class BobiSCB extends JavaPlugin {
                 new PlayerJoinQuit(gameManager),
                 new PlayerClickItem(),
                 new PlayerClickInGui(),
-                new WeatcherChange());
+                new WeatcherChange(),
+                new PlayerDeath(gameManager),
+                new BlockDamage());
+
 
         getCommand("start").setExecutor(new StartCommand(gameManager));
     }

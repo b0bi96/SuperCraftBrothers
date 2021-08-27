@@ -7,6 +7,8 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+import static pl.bobi.manager.PlayerManager.preparePlayerToGame;
+
 public class LivesManager {
 
     @Getter
@@ -16,6 +18,8 @@ public class LivesManager {
     public static void changePlayerLive(Player player) {
         String playerNick = player.getName();
 
+        preparePlayerToGame(player);
+
         if (!(playerLives.containsKey(playerNick))) {
             playerLives.put(playerNick, 5);
             player.sendMessage("Dodano");
@@ -23,11 +27,11 @@ public class LivesManager {
         } else {
             int live = playerLives.get(playerNick);
             playerLives.remove(playerNick);
-            if (live >= 1) {
+            if (live > 1) {
                 playerLives.put(playerNick, (live - 1));
                 PlayerManager.teleportPlayer(player, "random");
             } else {
-                playerLives.put(playerNick, 0);
+                playerLives.remove(playerNick);
                 player.sendMessage("Przegrales, jestes spec!");
                 PlayerManager.changePlayerState(player, PlayerManager.PlayerState.SPECTATOR);
                 PlayerManager.teleportPlayer(player, "spectator");

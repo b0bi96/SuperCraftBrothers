@@ -5,7 +5,6 @@ import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
@@ -20,11 +19,6 @@ public class PlayerDeath implements Listener {
     }
 
     @EventHandler
-    public void blockDamage(EntityDamageByBlockEvent event) {
-        event.setCancelled(true);
-    }
-
-    @EventHandler
     public void playerDeath(EntityDamageByEntityEvent event) {
         Player killer = (Player) event.getDamager();
         Player killed = (Player) event.getEntity();
@@ -35,9 +29,10 @@ public class PlayerDeath implements Listener {
             Bukkit.getServer().broadcastMessage(ChatColor.WHITE + "Gracz " + killed.getDisplayName() + " zostal zabity przez " + killer.getDisplayName());
 
             LivesManager.changePlayerLive(killed);
+            event.setCancelled(true);
         }
 
-        event.setCancelled(true);
+
 
     }
 }

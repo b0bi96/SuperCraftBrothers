@@ -36,14 +36,14 @@ public class GameManager {
             case STARTING:
                 this.startTask = new StartTask(this);
                 this.startTask.runTaskTimer(plugin, 0, 20);
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    LivesManager.changePlayerLive(player);
-                }
                 break;
             case INGAME:
                 if (this.startTask != null) this.startTask.cancel();
                 this.inGameScoreTask = new InGameScoreTask(this);
                 this.inGameScoreTask.runTaskTimer(plugin, 0, 20);
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    LivesManager.changePlayerLive(player);
+                }
                 getPlayerManager().giveKits();
                 KitsManager.getPlayerKit().clear();
                 break;

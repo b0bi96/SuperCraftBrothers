@@ -29,15 +29,17 @@ public class PlayerJoinQuit implements Listener {
     public void onJoin(PlayerJoinEvent e) {
         Player player = e.getPlayer();
         if (!(gameManager.getGameState() == GameState.INGAME)) {
+            PlayerManager.changePlayerState(player, PlayerManager.PlayerState.PLAYER);
+            preparePlayerToGame(player);
+            PlayerManager.teleportPlayer(player, "lobby");
+            player.getInventory().addItem(ChooseKitItem.itemStack());
+            e.setJoinMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " doloczyl do areny!");
             startLobbyScore.createStartScore(0);
         } else {
-            player.kickPlayer("GRA JUZ SIE ZACZELA :(");
-            return;
+            PlayerManager.changePlayerState(player, PlayerManager.PlayerState.SPECTATOR);
+            PlayerManager.teleportPlayer(player, "spectator");
+            preparePlayerToGame(player);
         }
-        preparePlayerToGame(player);
-        PlayerManager.teleportPlayer(player, "lobby");
-        player.getInventory().addItem(ChooseKitItem.itemStack());
-        e.setJoinMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " doloczyl do areny!");
     }
 
     @EventHandler
