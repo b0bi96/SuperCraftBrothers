@@ -24,6 +24,10 @@ public class ScoreboardCreate {
         obj.getScore(data).setScore(scorenumber);
     }
 
+    public void deleteLine(String data) {
+        scoreboard.resetScores(data);
+    }
+
     public void createScore(Player player) {
         if (player.getScoreboard().getObjective(title) != null) {
             player.getScoreboard().getObjective(title).unregister();

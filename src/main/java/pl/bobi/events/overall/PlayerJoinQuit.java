@@ -45,6 +45,7 @@ public class PlayerJoinQuit implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
+        startLobbyScore.createStartScore(0);
         e.setQuitMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " wyszedl z areny!");
     }
 }

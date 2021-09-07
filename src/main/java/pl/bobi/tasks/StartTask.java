@@ -19,7 +19,7 @@ public class StartTask extends BukkitRunnable {
         this.startScore = new StartLobbyScore();
     }
 
-    private int timeLeft = 2;
+    private int timeLeft = 5;
 
     @Override
     public void run() {
@@ -34,9 +34,9 @@ public class StartTask extends BukkitRunnable {
         getStartScore().createStartScore(timeLeft);
 
         if (timeLeft <= 0) {
-            this.cancel();
             gameManager.setGameState(GameState.INGAME);
             Bukkit.broadcastMessage(ChatColor.BLUE + "GRA ROZPOCZETA, POWODZENIA!");
+            this.cancel();
             return;
         }
 

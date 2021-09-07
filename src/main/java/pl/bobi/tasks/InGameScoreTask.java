@@ -17,12 +17,7 @@ public class InGameScoreTask extends BukkitRunnable {
         this.gameManager = gameManager;
         this.inGameScore = new InGameScore();
     }
-
-    @Override
     public void run() {
-        if(!(gameManager.getGameState() == GameState.INGAME)) this.cancel();
-        getInGameScore().createInGameScore();
-
-        LivesManager.blockMapYBorder();
+       LivesManager.blockMapYBorder();
     }
 }

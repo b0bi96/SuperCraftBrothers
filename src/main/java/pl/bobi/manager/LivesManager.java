@@ -3,6 +3,7 @@ package pl.bobi.manager;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import pl.bobi.builders.scoreboards.InGameScore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,6 +11,8 @@ import java.util.Map;
 import static pl.bobi.manager.PlayerManager.preparePlayerToGame;
 
 public class LivesManager {
+
+    private static InGameScore inGameScore;
 
     @Getter
     private static final Map<String, Integer> playerLives = new HashMap<>();
@@ -37,6 +40,7 @@ public class LivesManager {
                 PlayerManager.teleportPlayer(player, "spectator");
             }
         }
+        InGameScore.createInGameScore();
     }
 
     public static void blockMapYBorder() {
