@@ -17,12 +17,8 @@ public class InGameScore {
         scoreboardCreate.addLine("  ", 0);
         scoreboardCreate.addLine("   ", -playeringame - 1);
         scoreboardCreate.addLine(ChatColor.GOLD + "www.bobi.pl", -playeringame - 2);
-        for (Player player1 : Bukkit.getOnlinePlayers()) {
-            if (LivesManager.getPlayerLives().get(player1.getDisplayName()) == null) {
-                scoreboardCreate.deleteLine(player1.getName() + ": 1");
-                return;
-            }
-            scoreboardCreate.addLine(player1.getName() + ": " + ChatColor.AQUA + LivesManager.getPlayerLives().get(player1.getDisplayName()), -playeringame);
+        for (String player1 : PlayerManager.getPlayers()) {
+            scoreboardCreate.addLine(player1 + ": " + ChatColor.AQUA + LivesManager.getPlayerLives().get(player1), -playeringame);
 
             if (playeringame > 0) {
                 playeringame--;

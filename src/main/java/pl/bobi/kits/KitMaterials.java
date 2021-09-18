@@ -16,13 +16,11 @@ import java.util.Map;
 @Getter
 public class KitMaterials {
 
-    private final int amount;
     private final Map<Enchantment, Integer> enchantments = new HashMap<>();
     private final List<ItemStack> materials = new ArrayList<>();
     private final String kitName;
 
-    public KitMaterials(int amount, String kitName) {
-        this.amount = amount;
+    public KitMaterials(String kitName) {
         this.kitName = kitName;
 
         ConfigurationSection itemsSection = BobiSCB.getPlugin().getConfig().getConfigurationSection("kits." + kitName + ".items.materials");
@@ -36,9 +34,10 @@ public class KitMaterials {
 
     private void createItemStack(ItemStack itemStack) {
         ConfigurationSection enchantmentSection = BobiSCB.getPlugin().getConfig().getConfigurationSection("kits." + kitName + ".items.materials." + itemStack.getType().name() + ".enchantments");
+        int amount = BobiSCB.getPlugin().getConfig().getInt("kits." + kitName + ".items.materials." + itemStack.getType().name() + ".amount");
         if (enchantmentSection != null) {
             for (String enchantmentKey : enchantmentSection.getKeys(false)) {
-                Enchantment enchantment = Enchantment.getByName(enchantmentKey);
+                Enchantment enchantment = Enchantment.getByName(enchantmentKey.toUpperCase());
 
                 if (enchantment != null) {
                     int level = enchantmentSection.getInt(enchantmentKey);
@@ -48,6 +47,8 @@ public class KitMaterials {
                 }
             }
         }
+
+        itemStack.setAmount(amount);
 
         materials.add(itemStack);
     }

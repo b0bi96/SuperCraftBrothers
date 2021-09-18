@@ -19,13 +19,18 @@ spawnpoints:
 playerSlots: 10
 
 kits:
-  zombie:
+  Zombie:
+    gui:
+      material: DIAMOND
+      slotnumber: 2
+    material: DIAMOND
     isVipKit: false
     items:
       helmet:
-        material:
+        material: DIAMOND
         enchantments:
-          PROTECTION: 1
+          KNOCKBACK: 1
+          DURABILITY: 2
       chestplate:
         material:
         enchantments:
@@ -39,7 +44,39 @@ kits:
         enchantments:
           PROTECTION: 1
       materials:
+        GOLD_SWORD:
+          amount: 1
+          enchantments:
+            Knockback: 2
+        DIAMOND:
+          amount: 2
+          enchantments:
+            KNOCKBACK: 1
+  Blaze:
+    gui:
+      material: EMERALD
+      slotnumber: 1
+    isVipKit: false
+    items:
+      helmet:
+        material: DIAMOND
+        enchantments:
+          KNOCKBACK: 1
+          DURABILITY: 2
+      chestplate:
         material:
-        amount:
         enchantments:
           PROTECTION: 1
+      leggings:
+        material:
+        enchantments:
+          PROTECTION: 1
+      boots:
+        material:
+        enchantments:
+          PROTECTION: 1
+      materials:
+        DIAMOND_SWORD:
+          amount: 1
+          enchantments:
+            Knockback: 2

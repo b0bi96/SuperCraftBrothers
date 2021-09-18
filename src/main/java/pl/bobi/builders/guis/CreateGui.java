@@ -7,7 +7,6 @@ import org.bukkit.inventory.ItemStack;
 
 
 public class CreateGui {
-
     private final Inventory inventory;
 
     public CreateGui(String tittle, int slots) {

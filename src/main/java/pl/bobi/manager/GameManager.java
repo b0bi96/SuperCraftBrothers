@@ -2,10 +2,13 @@ package pl.bobi.manager;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Listener;
 import pl.bobi.BobiSCB;
 import pl.bobi.builders.scoreboards.InGameScore;
-import pl.bobi.tasks.InGameScoreTask;
+import pl.bobi.tasks.BorderTask;
+import pl.bobi.tasks.EndTask;
 import pl.bobi.tasks.StartTask;
 
 public class GameManager {
@@ -15,16 +18,19 @@ public class GameManager {
     private GameState gameState = GameState.LOBBY;
 
     @Getter
-    private final KitsManager playerManager;
+    private final KitsManager kitsManager;
 
     private StartTask startTask;
-    private InGameScoreTask inGameScoreTask;
-    private InGameScore inGameScore;
+    private BorderTask inGameScoreTask;
+    private EndTask endTask;
+    private final LivesManager livesManager;
+    private final DoubleJumpManager doubleJumpManager;
 
     public GameManager(BobiSCB plugin) {
         this.plugin = plugin;
-        this.playerManager = new KitsManager(this);
-        this.inGameScore = new InGameScore();
+        this.kitsManager = new KitsManager(this);
+        this.livesManager = new LivesManager(this);
+        this.doubleJumpManager = new DoubleJumpManager(this);
     }
 
     public void setGameState(GameState gameState) {
@@ -42,17 +48,21 @@ public class GameManager {
                 break;
             case INGAME:
                 if (this.startTask != null) this.startTask.cancel();
-                this.inGameScoreTask = new InGameScoreTask(this);
+                this.inGameScoreTask = new BorderTask(this);
                 this.inGameScoreTask.runTaskTimer(plugin, 0, 20);
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     LivesManager.changePlayerLive(player);
+                    player.setAllowFlight(true);
+                    player.setFlying(false);
                 }
                 InGameScore.createInGameScore();
-                getPlayerManager().giveKits();
+                getKitsManager().giveKits();
                 KitsManager.getPlayerKit().clear();
                 break;
             case END:
-                //
+                Bukkit.broadcastMessage(ChatColor.GOLD + "Koniec gry! Wygral: " + PlayerManager.getPlayers().get(0) + " gz!");
+                this.endTask = new EndTask();
+                this.endTask.runTaskTimer(plugin, 0, 20);
                 break;
         }
     }

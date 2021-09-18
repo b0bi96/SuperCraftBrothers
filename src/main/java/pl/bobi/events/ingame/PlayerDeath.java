@@ -6,6 +6,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
 import pl.bobi.manager.LivesManager;
@@ -26,13 +28,20 @@ public class PlayerDeath implements Listener {
         if (gameManager.getGameState() != GameState.INGAME) return;
 
         if ((killed.getHealth() - event.getFinalDamage()) <= 0.0) {
-            Bukkit.getServer().broadcastMessage(ChatColor.WHITE + "Gracz " + killed.getDisplayName() + " zostal zabity przez " + killer.getDisplayName());
+            Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + killed.getDisplayName() + ChatColor.GRAY + " zostal zabity przez " + ChatColor.WHITE + killer.getDisplayName());
 
             LivesManager.changePlayerLive(killed);
             event.setCancelled(true);
         }
+    }
 
+    @EventHandler
+    public void onDeath(PlayerDeathEvent event) {
+        event.setKeepInventory(true);
+    }
 
-
+    @EventHandler
+    public void dropItems(PlayerDropItemEvent event) {
+        event.setCancelled(true);
     }
 }

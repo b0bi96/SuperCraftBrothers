@@ -8,6 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import pl.bobi.commands.StartCommand;
 import pl.bobi.events.ingame.PlayerDeath;
 import pl.bobi.events.overall.*;
+import pl.bobi.manager.DoubleJumpManager;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.PlayerManager;
 import pl.bobi.utils.Config;
@@ -32,9 +33,8 @@ public final class BobiSCB extends JavaPlugin {
                 new PlayerClickInGui(),
                 new WeatcherChange(),
                 new PlayerDeath(gameManager),
-                new BlockDamage());
-
-
+                new BlockDamage(),
+                new DoubleJumpManager(gameManager));
         getCommand("start").setExecutor(new StartCommand(gameManager));
     }
 

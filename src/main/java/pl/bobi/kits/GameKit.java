@@ -4,8 +4,6 @@ import lombok.Getter;
 import org.bukkit.configuration.file.FileConfiguration;
 import pl.bobi.BobiSCB;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
 public class GameKit {
@@ -17,6 +15,7 @@ public class GameKit {
     private KitArrmorItem leggings;
     private KitArrmorItem boots;
     private KitMaterials kitMaterials;
+//    private PlaceInGui placeInGui;
 
     public GameKit(final String name) {
         if (config.getString("kits." + name) == null) return;
@@ -49,10 +48,11 @@ public class GameKit {
         );
 
         this.kitMaterials = new KitMaterials(
-            1,
             name
         );
 
-
+//        this.placeInGui = new PlaceInGui(
+//             name
+//        );
     }
 }

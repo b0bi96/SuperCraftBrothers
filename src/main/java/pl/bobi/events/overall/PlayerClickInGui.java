@@ -19,9 +19,10 @@ public class PlayerClickInGui implements Listener {
         if (itemStack == null || itemStack.getType() == Material.AIR) return;
         if (player == null) return;
         if (!e.getInventory().getTitle().equals(ChatColor.AQUA + "Wybor klasy")) return;
+        //TODO Check if player is vip
 
         KitsManager.addKitToPlayer(player, itemStack.getItemMeta().getDisplayName());
-        player.sendMessage("Wybrales klase: " + itemStack.getItemMeta().getDisplayName());
+        player.sendMessage(ChatColor.GOLD + "Wybrales klase: " + itemStack.getItemMeta().getDisplayName());
 
         e.setCancelled(true);
         player.closeInventory();

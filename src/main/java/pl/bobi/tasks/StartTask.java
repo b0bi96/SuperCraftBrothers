@@ -25,13 +25,13 @@ public class StartTask extends BukkitRunnable {
     public void run() {
         if (timeLeft == 20) {
             Bukkit.broadcastMessage(ChatColor.GOLD + "Start gry za: " + timeLeft);
-            getStartScore().createStartScore(timeLeft);
+            getStartScore().createStartScore(timeLeft, Bukkit.getOnlinePlayers().size());
             timeLeft--;
             return;
         }
         timeLeft--;
 
-        getStartScore().createStartScore(timeLeft);
+        getStartScore().createStartScore(timeLeft, Bukkit.getOnlinePlayers().size());
 
         if (timeLeft <= 0) {
             gameManager.setGameState(GameState.INGAME);

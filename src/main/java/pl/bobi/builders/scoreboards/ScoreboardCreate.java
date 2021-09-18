@@ -26,6 +26,7 @@ public class ScoreboardCreate {
 
     public void deleteLine(String data) {
         scoreboard.resetScores(data);
+        obj.getScore(data).getScoreboard().resetScores(data);
     }
 
     public void createScore(Player player) {

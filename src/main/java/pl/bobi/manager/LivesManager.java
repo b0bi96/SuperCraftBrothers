@@ -2,6 +2,7 @@ package pl.bobi.manager;
 
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import pl.bobi.builders.scoreboards.InGameScore;
 
@@ -12,20 +13,27 @@ import static pl.bobi.manager.PlayerManager.preparePlayerToGame;
 
 public class LivesManager {
 
-    private static InGameScore inGameScore;
+    private static GameManager gameManager;
+
+    public LivesManager(GameManager gameManager) {
+        LivesManager.gameManager = gameManager;
+    }
 
     @Getter
     private static final Map<String, Integer> playerLives = new HashMap<>();
-    //K, V
 
     public static void changePlayerLive(Player player) {
         String playerNick = player.getName();
 
         preparePlayerToGame(player);
 
+        if (!(gameManager.getGameState() == GameState.INGAME)) {
+            PlayerManager.teleportPlayer(player, "random");
+            return;
+        }
+
         if (!(playerLives.containsKey(playerNick))) {
             playerLives.put(playerNick, 5);
-            player.sendMessage("Dodano");
             PlayerManager.teleportPlayer(player, "random");
         } else {
             int live = playerLives.get(playerNick);
@@ -35,11 +43,15 @@ public class LivesManager {
                 PlayerManager.teleportPlayer(player, "random");
             } else {
                 playerLives.remove(playerNick);
-                player.sendMessage("Przegrales, jestes spec!");
+                player.sendMessage(ChatColor.WHITE + "Przegrales! Od teraz mozesz obserwowac gre jako obserwator");
                 PlayerManager.changePlayerState(player, PlayerManager.PlayerState.SPECTATOR);
                 PlayerManager.teleportPlayer(player, "spectator");
             }
         }
+        if (PlayerManager.getPlayers().size() == 1) {
+            gameManager.setGameState(GameState.END);
+        }
+
         InGameScore.createInGameScore();
     }
 
