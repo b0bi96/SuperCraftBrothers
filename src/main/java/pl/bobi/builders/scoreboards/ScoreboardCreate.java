@@ -1,18 +1,23 @@
 package pl.bobi.builders.scoreboards;
 
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Scoreboard;
-import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.scoreboard.*;
+import pl.bobi.manager.LifesManager;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class ScoreboardCreate {
 
     private final String title = ChatColor.GOLD + "" + ChatColor.BOLD + "BobiSCB";
     private final Scoreboard scoreboard;
     private final Objective obj;
+
+    @Getter
+    private static String data = new SimpleDateFormat("dd/MM/yyyy").format(new Date());
 
     public ScoreboardCreate() {
         ScoreboardManager scoreboardManager = Bukkit.getServer().getScoreboardManager();
@@ -40,6 +45,17 @@ public class ScoreboardCreate {
         player.setScoreboard(scoreboard);
     }
 
+    public void createTab(String playerNick) {
+        Team team = this.scoreboard.getTeam("lifes");
+
+        if (team == null) {
+            team = this.scoreboard.registerNewTeam("lifes");
+        }
+
+        team.setSuffix(": " + ChatColor.GOLD + LifesManager.getPlayerLives().get(playerNick));
+        team.addEntry(playerNick);
+    }
+
     public void create(Player player) {
         createScore(player);
     }
@@ -49,5 +65,4 @@ public class ScoreboardCreate {
             createScore(players);
         }
     }
-
 }

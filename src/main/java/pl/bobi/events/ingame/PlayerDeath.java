@@ -10,7 +10,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
-import pl.bobi.manager.LivesManager;
+import pl.bobi.manager.LifesManager;
 
 public class PlayerDeath implements Listener {
 
@@ -30,7 +30,7 @@ public class PlayerDeath implements Listener {
         if ((killed.getHealth() - event.getFinalDamage()) <= 0.0) {
             Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + killed.getDisplayName() + ChatColor.GRAY + " zostal zabity przez " + ChatColor.WHITE + killer.getDisplayName());
 
-            LivesManager.changePlayerLive(killed);
+            LifesManager.changePlayerLive(killed);
             event.setCancelled(true);
         }
     }

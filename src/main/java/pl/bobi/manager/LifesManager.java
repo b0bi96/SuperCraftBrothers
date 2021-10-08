@@ -11,12 +11,12 @@ import java.util.Map;
 
 import static pl.bobi.manager.PlayerManager.preparePlayerToGame;
 
-public class LivesManager {
+public class LifesManager {
 
     private static GameManager gameManager;
 
-    public LivesManager(GameManager gameManager) {
-        LivesManager.gameManager = gameManager;
+    public LifesManager(GameManager gameManager) {
+        LifesManager.gameManager = gameManager;
     }
 
     @Getter
@@ -48,11 +48,12 @@ public class LivesManager {
                 PlayerManager.teleportPlayer(player, "spectator");
             }
         }
-        if (PlayerManager.getPlayers().size() == 1) {
-            gameManager.setGameState(GameState.END);
-        }
+//        if (PlayerManager.getPlayers().size() == 1) {
+//            gameManager.setGameState(GameState.END);
+//        }
 
         InGameScore.createInGameScore();
+
     }
 
     public static void blockMapYBorder() {

@@ -11,7 +11,7 @@ import pl.bobi.builders.items.ChooseKitItem;
 import pl.bobi.builders.scoreboards.StartLobbyScore;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
-import pl.bobi.manager.LivesManager;
+import pl.bobi.manager.LifesManager;
 import pl.bobi.manager.PlayerManager;
 import pl.bobi.utils.Config;
 
@@ -52,8 +52,8 @@ public class PlayerJoinQuit implements Listener {
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
         PlayerManager.getPlayers().remove(player.getDisplayName());
-        LivesManager.getPlayerLives().replace(player.getDisplayName(), 1);
-        LivesManager.changePlayerLive(player);
+        LifesManager.getPlayerLives().replace(player.getDisplayName(), 1);
+        LifesManager.changePlayerLive(player);
         if (gameManager.getGameState() == GameState.LOBBY) {
             e.setQuitMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " wyszedl z areny! (" + ChatColor.WHITE + PlayerManager.getPlayers().size() +
                     ChatColor.GRAY + "/" + ChatColor.WHITE + Config.MAX_SLOTS + ChatColor.GRAY + ")");

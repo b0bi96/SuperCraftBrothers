@@ -2,7 +2,7 @@ package pl.bobi.tasks;
 
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.bobi.manager.GameManager;
-import pl.bobi.manager.LivesManager;
+import pl.bobi.manager.LifesManager;
 
 public class BorderTask extends BukkitRunnable {
 
@@ -12,6 +12,6 @@ public class BorderTask extends BukkitRunnable {
         this.gameManager = gameManager;
     }
     public void run() {
-       LivesManager.blockMapYBorder();
+       LifesManager.blockMapYBorder();
     }
 }

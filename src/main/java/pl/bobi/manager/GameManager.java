@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Listener;
 import pl.bobi.BobiSCB;
 import pl.bobi.builders.scoreboards.InGameScore;
 import pl.bobi.tasks.BorderTask;
@@ -23,13 +22,13 @@ public class GameManager {
     private StartTask startTask;
     private BorderTask inGameScoreTask;
     private EndTask endTask;
-    private final LivesManager livesManager;
+    private final LifesManager livesManager;
     private final DoubleJumpManager doubleJumpManager;
 
     public GameManager(BobiSCB plugin) {
         this.plugin = plugin;
         this.kitsManager = new KitsManager(this);
-        this.livesManager = new LivesManager(this);
+        this.livesManager = new LifesManager(this);
         this.doubleJumpManager = new DoubleJumpManager(this);
     }
 
@@ -51,11 +50,10 @@ public class GameManager {
                 this.inGameScoreTask = new BorderTask(this);
                 this.inGameScoreTask.runTaskTimer(plugin, 0, 20);
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    LivesManager.changePlayerLive(player);
+                    LifesManager.changePlayerLive(player);
                     player.setAllowFlight(true);
                     player.setFlying(false);
                 }
-                InGameScore.createInGameScore();
                 getKitsManager().giveKits();
                 KitsManager.getPlayerKit().clear();
                 break;
