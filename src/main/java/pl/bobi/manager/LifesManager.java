@@ -48,12 +48,10 @@ public class LifesManager {
                 PlayerManager.teleportPlayer(player, "spectator");
             }
         }
-//        if (PlayerManager.getPlayers().size() == 1) {
-//            gameManager.setGameState(GameState.END);
-//        }
-
+        if (PlayerManager.getPlayers().size() == 1) {
+            gameManager.setGameState(GameState.END);
+        }
         InGameScore.createInGameScore();
-
     }
 
     public static void blockMapYBorder() {

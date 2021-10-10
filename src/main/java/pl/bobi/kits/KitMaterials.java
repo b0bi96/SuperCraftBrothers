@@ -7,6 +7,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.bobi.BobiSCB;
+import pl.bobi.utils.TranslateItemName;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ public class KitMaterials {
 
     private final Map<Enchantment, Integer> enchantments = new HashMap<>();
     private final List<ItemStack> materials = new ArrayList<>();
+    private final List<String> materialList = new ArrayList<>();
     private final String kitName;
 
     public KitMaterials(String kitName) {
@@ -44,6 +46,9 @@ public class KitMaterials {
                     ItemMeta itemMeta = itemStack.getItemMeta();
                     itemMeta.addEnchant(enchantment, level, true);
                     itemStack.setItemMeta(itemMeta);
+                    materialList.add(TranslateItemName.translateString(itemStack.getType().name()) + " (" +TranslateItemName.translateString(enchantment.getName() + level) + ")");
+                } else {
+                    materialList.add(TranslateItemName.translateString(itemStack.getType().name()));
                 }
             }
         }

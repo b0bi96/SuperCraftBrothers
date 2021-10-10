@@ -1,7 +1,10 @@
 package pl.bobi;
 
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -10,8 +13,10 @@ import pl.bobi.events.ingame.PlayerDeath;
 import pl.bobi.events.overall.*;
 import pl.bobi.manager.DoubleJumpManager;
 import pl.bobi.manager.GameManager;
-import pl.bobi.manager.PlayerManager;
 import pl.bobi.utils.Config;
+
+import java.io.File;
+import java.io.IOException;
 
 public final class BobiSCB extends JavaPlugin {
 
@@ -19,6 +24,9 @@ public final class BobiSCB extends JavaPlugin {
     private static BobiSCB plugin;
     private GameManager gameManager;
 
+    public static FileConfiguration fileConfiguration;
+
+    @SneakyThrows
     @Override
     public void onEnable() {
         plugin = this;
@@ -27,7 +35,7 @@ public final class BobiSCB extends JavaPlugin {
         this.gameManager = new GameManager(this);
 
         registerEvents(this,
-                new BlockBreak(gameManager),
+                new BlockBreak(),
                 new PlayerJoinQuit(gameManager),
                 new PlayerClickItem(),
                 new PlayerClickInGui(),
@@ -36,13 +44,18 @@ public final class BobiSCB extends JavaPlugin {
                 new BlockDamage(),
                 new DoubleJumpManager(gameManager));
         getCommand("start").setExecutor(new StartCommand(gameManager));
+
+        File file = new File(plugin.getDataFolder(), "itemsNames.yml");
+
+        if (!file.exists())
+            throw new IOException("Nie wczytano itemsNames.yml!");
+
+        fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
 
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelAllTasks();
-        PlayerManager.getPlayers().clear();
-        PlayerManager.getSpecPlayers().clear();
     }
 
     public void registerEvents(Plugin plugin, Listener... listeners) {

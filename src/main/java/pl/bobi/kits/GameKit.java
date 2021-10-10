@@ -15,7 +15,7 @@ public class GameKit {
     private KitArrmorItem leggings;
     private KitArrmorItem boots;
     private KitMaterials kitMaterials;
-//    private PlaceInGui placeInGui;
+    private GuiInfo placeInGui;
 
     public GameKit(final String name) {
         if (config.getString("kits." + name) == null) return;
@@ -51,8 +51,8 @@ public class GameKit {
             name
         );
 
-//        this.placeInGui = new PlaceInGui(
-//             name
-//        );
+        this.placeInGui = new GuiInfo(
+             name
+        );
     }
 }

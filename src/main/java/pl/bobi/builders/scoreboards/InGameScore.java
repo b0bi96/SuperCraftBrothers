@@ -3,6 +3,7 @@ package pl.bobi.builders.scoreboards;
 import org.bukkit.ChatColor;
 import pl.bobi.manager.LifesManager;
 import pl.bobi.manager.PlayerManager;
+import pl.bobi.utils.Config;
 
 public class InGameScore {
 

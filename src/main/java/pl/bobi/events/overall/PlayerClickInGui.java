@@ -17,14 +17,18 @@ public class PlayerClickInGui implements Listener {
         final ItemStack itemStack = e.getCurrentItem();
 
         if (itemStack == null || itemStack.getType() == Material.AIR) return;
+
+        final String itemName = itemStack.getItemMeta().getDisplayName();
+
         if (player == null) return;
-        if (!e.getInventory().getTitle().equals(ChatColor.AQUA + "Wybor klasy")) return;
+        if (e.getInventory().getTitle().equals(ChatColor.AQUA + "Wybor klasy")) {
+            KitsManager.addKitToPlayer(player, ChatColor.stripColor(itemName));
+            player.sendMessage(ChatColor.GOLD + "Wybrales klase: " + itemName);
+
+            e.setCancelled(true);
+            player.closeInventory();
+        }
         //TODO Check if player is vip
-
-        KitsManager.addKitToPlayer(player, itemStack.getItemMeta().getDisplayName());
-        player.sendMessage(ChatColor.GOLD + "Wybrales klase: " + itemStack.getItemMeta().getDisplayName());
-
         e.setCancelled(true);
-        player.closeInventory();
     }
 }

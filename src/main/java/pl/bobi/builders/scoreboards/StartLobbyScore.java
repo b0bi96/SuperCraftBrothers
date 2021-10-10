@@ -1,7 +1,7 @@
 package pl.bobi.builders.scoreboards;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import pl.bobi.BobiSCB;
 import pl.bobi.utils.Config;
 
 
@@ -9,10 +9,10 @@ public class StartLobbyScore {
 
     public void createStartScore(int timeleft, int playerSize) {
         ScoreboardCreate scoreboardCreate = new ScoreboardCreate();
-        scoreboardCreate.addLine(ChatColor.GRAY + ScoreboardCreate.getData(), 9);
+        scoreboardCreate.addLine(ChatColor.GRAY + ScoreboardCreate.getData() + " " + ChatColor.BOLD + ChatColor.GRAY + BobiSCB.getPlugin().getServer().getServerName(),  9);
         scoreboardCreate.addLine(" ", 8);
         scoreboardCreate.addLine(ChatColor.GRAY + "Mapa: " + ChatColor.WHITE + Config.MAP_NAME, 7);
-        scoreboardCreate.addLine(ChatColor.GRAY + "Version: " + ChatColor.WHITE + Config.PLUGIN_VERSION, 6);
+        scoreboardCreate.addLine(ChatColor.GRAY + "Wersja: " + ChatColor.WHITE + Config.PLUGIN_VERSION, 6);
         scoreboardCreate.addLine("  ", 5);
         if (timeleft == 0) {
             scoreboardCreate.addLine(ChatColor.GRAY + "Start za: " + ChatColor.WHITE + "oczekiwanie...", 4);

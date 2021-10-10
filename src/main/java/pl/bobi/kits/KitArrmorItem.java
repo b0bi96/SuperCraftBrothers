@@ -1,5 +1,6 @@
 package pl.bobi.kits;
 
+import lombok.Getter;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
@@ -7,13 +8,18 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.bobi.BobiSCB;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+@Getter
 public class KitArrmorItem {
 
     private final String material;
     private final Map<Enchantment, Integer> enchantments = new HashMap<>();
+    private final List<String> enchantsDes = new ArrayList<>();
+
 
     public KitArrmorItem(String material, String kitName, String type) {
         this.material = material;
@@ -27,6 +33,7 @@ public class KitArrmorItem {
                 if (enchantment != null) {
                     int level = enchantmentSection.getInt(enchantmentKey);
                     enchantments.put(enchantment, level);
+                    enchantsDes.add(enchantment.getName() + level);
                 }
             }
         }

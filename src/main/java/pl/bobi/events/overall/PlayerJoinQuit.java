@@ -51,11 +51,14 @@ public class PlayerJoinQuit implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e) {
         Player player = e.getPlayer();
-        PlayerManager.getPlayers().remove(player.getDisplayName());
-        LifesManager.getPlayerLives().replace(player.getDisplayName(), 1);
+        String nick = player.getName();
+        PlayerManager.getPlayers().remove(nick);
+        PlayerManager.getSpecPlayers().remove(nick);
+        LifesManager.getPlayerLives().replace(nick, 1);
         LifesManager.changePlayerLive(player);
+
         if (gameManager.getGameState() == GameState.LOBBY) {
-            e.setQuitMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() + ChatColor.GRAY + " wyszedl z areny! (" + ChatColor.WHITE + PlayerManager.getPlayers().size() +
+            e.setQuitMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + nick + ChatColor.GRAY + " wyszedl z areny! (" + ChatColor.WHITE + PlayerManager.getPlayers().size() +
                     ChatColor.GRAY + "/" + ChatColor.WHITE + Config.MAX_SLOTS + ChatColor.GRAY + ")");
             startLobbyScore.createStartScore(0, Bukkit.getOnlinePlayers().size() - 1);
         }

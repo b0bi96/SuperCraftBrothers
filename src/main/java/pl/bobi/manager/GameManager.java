@@ -50,6 +50,7 @@ public class GameManager {
                 this.inGameScoreTask = new BorderTask(this);
                 this.inGameScoreTask.runTaskTimer(plugin, 0, 20);
                 for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.getInventory().clear();
                     LifesManager.changePlayerLive(player);
                     player.setAllowFlight(true);
                     player.setFlying(false);
@@ -58,6 +59,9 @@ public class GameManager {
                 KitsManager.getPlayerKit().clear();
                 break;
             case END:
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    player.getInventory().clear();
+                }
                 Bukkit.broadcastMessage(ChatColor.GOLD + "Koniec gry! Wygral: " + PlayerManager.getPlayers().get(0) + " gz!");
                 this.endTask = new EndTask();
                 this.endTask.runTaskTimer(plugin, 0, 20);

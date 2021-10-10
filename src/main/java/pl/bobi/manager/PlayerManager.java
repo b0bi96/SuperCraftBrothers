@@ -41,7 +41,6 @@ public class PlayerManager {
     public static void preparePlayerToGame(Player player) {
         if (player == null) return;
 
-        player.getInventory().clear();
         player.setHealth(20);
         player.setFoodLevel(20);
     }
