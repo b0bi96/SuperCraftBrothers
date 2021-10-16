@@ -22,6 +22,8 @@ public class PlayerDeath implements Listener {
 
     @EventHandler
     public void playerDeath(EntityDamageByEntityEvent event) {
+        if (gameManager.getGameState() == GameState.LOBBY) return;
+
         Player killer = (Player) event.getDamager();
         Player killed = (Player) event.getEntity();
 

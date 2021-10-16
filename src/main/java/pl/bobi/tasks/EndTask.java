@@ -11,9 +11,7 @@ public class EndTask extends BukkitRunnable {
         time--;
 
         if (time == 0) {
-            Bukkit.getOnlinePlayers().forEach(player -> {
-                player.kickPlayer("TP do lobby!");
-            });
+            Bukkit.getOnlinePlayers().forEach(player -> player.kickPlayer("TP do lobby!"));
             Bukkit.getServer().reload();
         }
     }

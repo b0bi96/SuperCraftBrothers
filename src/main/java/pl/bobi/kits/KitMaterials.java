@@ -1,9 +1,14 @@
 package pl.bobi.kits;
 
 import lombok.Getter;
+import net.minecraft.server.v1_8_R3.NBTTagByte;
+import net.minecraft.server.v1_8_R3.NBTTagCompound;
+import net.minecraft.server.v1_8_R3.NBTTagList;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.craftbukkit.v1_8_R3.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.bobi.BobiSCB;
@@ -40,10 +45,10 @@ public class KitMaterials {
         if (enchantmentSection != null) {
             for (String enchantmentKey : enchantmentSection.getKeys(false)) {
                 Enchantment enchantment = Enchantment.getByName(enchantmentKey.toUpperCase());
-
+                ItemMeta itemMeta = itemStack.getItemMeta();
+                itemMeta.spigot().setUnbreakable(true);
                 if (enchantment != null) {
                     int level = enchantmentSection.getInt(enchantmentKey);
-                    ItemMeta itemMeta = itemStack.getItemMeta();
                     itemMeta.addEnchant(enchantment, level, true);
                     itemStack.setItemMeta(itemMeta);
                     materialList.add(TranslateItemName.translateString(itemStack.getType().name()) + " (" +TranslateItemName.translateString(enchantment.getName() + level) + ")");
@@ -53,10 +58,9 @@ public class KitMaterials {
             }
         }
 
-        itemStack.setAmount(amount);
 
+
+        itemStack.setAmount(amount);
         materials.add(itemStack);
     }
-
-
 }

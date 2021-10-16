@@ -10,6 +10,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.bobi.commands.StartCommand;
 import pl.bobi.events.ingame.PlayerDeath;
+import pl.bobi.events.ingame.PlayerItemHeld;
+import pl.bobi.events.lobby.PlayerClickInGui;
+import pl.bobi.events.lobby.PlayerClickItem;
 import pl.bobi.events.overall.*;
 import pl.bobi.manager.DoubleJumpManager;
 import pl.bobi.manager.GameManager;
@@ -25,6 +28,8 @@ public final class BobiSCB extends JavaPlugin {
     private GameManager gameManager;
 
     public static FileConfiguration fileConfiguration;
+
+
 
     @SneakyThrows
     @Override
@@ -42,7 +47,8 @@ public final class BobiSCB extends JavaPlugin {
                 new WeatcherChange(),
                 new PlayerDeath(gameManager),
                 new BlockDamage(),
-                new DoubleJumpManager(gameManager));
+                new DoubleJumpManager(gameManager),
+                new PlayerItemHeld());
         getCommand("start").setExecutor(new StartCommand(gameManager));
 
         File file = new File(plugin.getDataFolder(), "itemsNames.yml");
@@ -52,7 +58,6 @@ public final class BobiSCB extends JavaPlugin {
 
         fileConfiguration = YamlConfiguration.loadConfiguration(file);
     }
-
     @Override
     public void onDisable() {
         getServer().getScheduler().cancelAllTasks();

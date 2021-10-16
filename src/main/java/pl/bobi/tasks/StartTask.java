@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
-import pl.bobi.builders.scoreboards.StartLobbyScore;
+import pl.bobi.builders.scoreboards.NewLobbyScore;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
 
@@ -12,26 +12,25 @@ public class StartTask extends BukkitRunnable {
 
     private final GameManager gameManager;
     @Getter
-    private final StartLobbyScore startScore;
+    private final NewLobbyScore newLobbyScore;
 
     public StartTask(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.startScore = new StartLobbyScore();
+        this.newLobbyScore = new NewLobbyScore();
     }
 
-    private int timeLeft = 5;
+    private int timeLeft = 2;
 
     @Override
     public void run() {
         if (timeLeft == 20) {
             Bukkit.broadcastMessage(ChatColor.GOLD + "Start gry za: " + timeLeft);
-            getStartScore().createStartScore(timeLeft, Bukkit.getOnlinePlayers().size());
+            newLobbyScore.updataScoreData(timeLeft);
             timeLeft--;
             return;
         }
         timeLeft--;
-
-        getStartScore().createStartScore(timeLeft, Bukkit.getOnlinePlayers().size());
+        newLobbyScore.updataScoreData(timeLeft);
 
         if (timeLeft <= 0) {
             gameManager.setGameState(GameState.INGAME);

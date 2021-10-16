@@ -5,7 +5,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import pl.bobi.BobiSCB;
-import pl.bobi.builders.scoreboards.InGameScore;
+import pl.bobi.builders.scoreboards.NewInGameScore;
+import pl.bobi.builders.scoreboards.NewLobbyScore;
 import pl.bobi.tasks.BorderTask;
 import pl.bobi.tasks.EndTask;
 import pl.bobi.tasks.StartTask;
@@ -30,6 +31,7 @@ public class GameManager {
         this.kitsManager = new KitsManager(this);
         this.livesManager = new LifesManager(this);
         this.doubleJumpManager = new DoubleJumpManager(this);
+
     }
 
     public void setGameState(GameState gameState) {
@@ -40,6 +42,7 @@ public class GameManager {
 
         switch (gameState) {
             case LOBBY:
+                NewLobbyScore.createScoreboard();
                 break;
             case STARTING:
                 this.startTask = new StartTask(this);
@@ -55,12 +58,15 @@ public class GameManager {
                     player.setAllowFlight(true);
                     player.setFlying(false);
                 }
+                NewInGameScore.createScoreboard();
                 getKitsManager().giveKits();
                 KitsManager.getPlayerKit().clear();
+
                 break;
             case END:
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.getInventory().clear();
+                    player.getInventory().setArmorContents(null);
                 }
                 Bukkit.broadcastMessage(ChatColor.GOLD + "Koniec gry! Wygral: " + PlayerManager.getPlayers().get(0) + " gz!");
                 this.endTask = new EndTask();

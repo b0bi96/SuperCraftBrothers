@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import pl.bobi.builders.items.ChooseKitItem;
-import pl.bobi.builders.scoreboards.StartLobbyScore;
+import pl.bobi.builders.scoreboards.NewLobbyScore;
 import pl.bobi.manager.GameManager;
 import pl.bobi.manager.GameState;
 import pl.bobi.manager.LifesManager;
@@ -21,11 +21,9 @@ import static pl.bobi.manager.PlayerManager.preparePlayerToGame;
 public class PlayerJoinQuit implements Listener {
 
     private final GameManager gameManager;
-    private final StartLobbyScore startLobbyScore;
 
     public PlayerJoinQuit(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.startLobbyScore = new StartLobbyScore();
     }
 
     @EventHandler
@@ -36,11 +34,12 @@ public class PlayerJoinQuit implements Listener {
             PlayerManager.changePlayerState(player, PlayerManager.PlayerState.PLAYER);
             preparePlayerToGame(player);
             PlayerManager.teleportPlayer(player, "lobby");
-            player.getInventory().addItem(ChooseKitItem.itemStack());
+            player.getInventory().clear();
+            player.getInventory().addItem(ChooseKitItem.build());
             e.setJoinMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + player.getName() +
                     ChatColor.GRAY + " dolaczyl do areny! (" + ChatColor.WHITE + PlayerManager.getPlayers().size() + ChatColor.GRAY + "/" + ChatColor.WHITE + Config.MAX_SLOTS + ChatColor.GRAY + ")");
-
-            startLobbyScore.createStartScore(0, Bukkit.getOnlinePlayers().size());
+            NewLobbyScore.addPlayerToScre(player);
+            NewLobbyScore.updateOnline(Bukkit.getOnlinePlayers().size());
         } else {
             PlayerManager.changePlayerState(player, PlayerManager.PlayerState.SPECTATOR);
             PlayerManager.teleportPlayer(player, "spectator");
@@ -60,7 +59,8 @@ public class PlayerJoinQuit implements Listener {
         if (gameManager.getGameState() == GameState.LOBBY) {
             e.setQuitMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + nick + ChatColor.GRAY + " wyszedl z areny! (" + ChatColor.WHITE + PlayerManager.getPlayers().size() +
                     ChatColor.GRAY + "/" + ChatColor.WHITE + Config.MAX_SLOTS + ChatColor.GRAY + ")");
-            startLobbyScore.createStartScore(0, Bukkit.getOnlinePlayers().size() - 1);
+            NewLobbyScore.updateOnline(Bukkit.getOnlinePlayers().size() - 1);
+            NewLobbyScore.removePlayer(player);
         }
     }
 }

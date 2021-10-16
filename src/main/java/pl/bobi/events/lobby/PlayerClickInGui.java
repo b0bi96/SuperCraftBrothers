@@ -1,4 +1,4 @@
-package pl.bobi.events.overall;
+package pl.bobi.events.lobby;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;

@@ -4,7 +4,7 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import pl.bobi.builders.scoreboards.InGameScore;
+import pl.bobi.builders.scoreboards.NewInGameScore;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,6 @@ public class LifesManager {
     public LifesManager(GameManager gameManager) {
         LifesManager.gameManager = gameManager;
     }
-
     @Getter
     private static final Map<String, Integer> playerLives = new HashMap<>();
 
@@ -48,10 +47,14 @@ public class LifesManager {
                 PlayerManager.teleportPlayer(player, "spectator");
             }
         }
-        if (PlayerManager.getPlayers().size() == 1) {
-            gameManager.setGameState(GameState.END);
-        }
-        InGameScore.createInGameScore();
+//        if (PlayerManager.getPlayers().size() == 1) {
+//            gameManager.setGameState(GameState.END);
+//        }
+        NewInGameScore.updataScoreData(player);
+    }
+
+    public static int getPlayerLife(String player) {
+        return getPlayerLives().get(player);
     }
 
     public static void blockMapYBorder() {
