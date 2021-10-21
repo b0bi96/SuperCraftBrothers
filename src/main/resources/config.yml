@@ -23,7 +23,6 @@ kits:
     gui:
       material: DIAMOND
       slotnumber: 2
-    material: DIAMOND
     isVipKit: false
     items:
       helmet:
@@ -44,14 +43,12 @@ kits:
         enchantments:
           PROTECTION: 1
       materials:
-        GOLD_SWORD:
+        IRON_HOE:
           amount: 1
+          name: MOTYKA REAPER
           enchantments:
             Knockback: 2
-        DIAMOND:
-          amount: 2
-          enchantments:
-            KNOCKBACK: 1
+            DAMAGE_ALL: 1
   Blaze:
     gui:
       material: EMERALD

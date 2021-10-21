@@ -18,6 +18,6 @@ public class PlayerClickItem implements Listener {
         if (player.getItemInHand().getItemMeta().getLore() == null) return;
         if (!player.getItemInHand().getItemMeta().getLore().contains(ChatColor.GREEN + "Kilknij aby wybrac klase!")) return;
 
-        new ChooseKitsToPlayGui(ChatColor.AQUA + "Wybor klasy", 27).createGui(player);
+        new ChooseKitsToPlayGui(ChatColor.AQUA + "Wybor klasy", 45).createGui(player);
     }
 }

@@ -18,15 +18,16 @@ public class LifesManager {
     public LifesManager(GameManager gameManager) {
         LifesManager.gameManager = gameManager;
     }
+
     @Getter
     private static final Map<String, Integer> playerLives = new HashMap<>();
 
-    public static void changePlayerLive(Player player) {
+    public static void changePlayerLive(Player player, boolean sendKillMsg) {
         String playerNick = player.getName();
 
         preparePlayerToGame(player);
 
-        if (!(gameManager.getGameState() == GameState.INGAME)) {
+        if (!(gameManager.getGameState() == GameManager.GameState.INGAME)) {
             PlayerManager.teleportPlayer(player, "random");
             return;
         }
@@ -42,13 +43,23 @@ public class LifesManager {
                 PlayerManager.teleportPlayer(player, "random");
             } else {
                 playerLives.remove(playerNick);
-                player.sendMessage(ChatColor.WHITE + "Przegrales! Od teraz mozesz obserwowac gre jako obserwator");
+                player.sendMessage(ChatColor.AQUA + "Przegrales! Od teraz mozesz obserwowac gre jako obserwator!");
                 PlayerManager.changePlayerState(player, PlayerManager.PlayerState.SPECTATOR);
                 PlayerManager.teleportPlayer(player, "spectator");
             }
         }
+
+        if (sendKillMsg) {
+            if (PlayerManager.getKills().get(playerNick) != null) {
+                Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + playerNick + ChatColor.GRAY + " zostal zabity przez "
+                        + ChatColor.WHITE + PlayerManager.getKills().get(playerNick));
+            } else {
+                Bukkit.getServer().broadcastMessage(ChatColor.GRAY + "Gracz " + ChatColor.WHITE + playerNick + ChatColor.GRAY + " zginal!");
+            }
+        }
+
 //        if (PlayerManager.getPlayers().size() == 1) {
-//            gameManager.setGameState(GameState.END);
+//            gameManager.setGameState(GameManager.GameState.END);
 //        }
         NewInGameScore.updataScoreData(player);
     }
@@ -60,7 +71,7 @@ public class LifesManager {
     public static void blockMapYBorder() {
         for (Player player : Bukkit.getOnlinePlayers()) {
             if (player.getLocation().getY() < 65) {
-                changePlayerLive(player);
+                changePlayerLive(player, true);
             }
         }
     }

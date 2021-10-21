@@ -4,7 +4,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import pl.bobi.manager.GameManager;
-import pl.bobi.manager.GameState;
 
 public class StartCommand implements CommandExecutor {
 
@@ -16,7 +15,7 @@ public class StartCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        gameManager.setGameState(GameState.STARTING);
+        gameManager.setGameState(GameManager.GameState.STARTING);
         return false;
     }
 }

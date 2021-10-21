@@ -7,5 +7,4 @@ public class TranslateItemName {
     public static String translateString(String string) {
         return BobiSCB.fileConfiguration.getString(string);
     }
-
 }

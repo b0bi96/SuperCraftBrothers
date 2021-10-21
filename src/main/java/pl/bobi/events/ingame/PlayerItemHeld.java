@@ -37,7 +37,7 @@ public class PlayerItemHeld implements Listener {
 
                         if (item.getType() == Material.COMPASS) {
                             ItemMeta itemMeta = item.getItemMeta();
-                            itemMeta.setDisplayName(ChatColor.AQUA + target.getName() + ChatColor.GRAY + ": " + playerDistance + " bloki");
+                            itemMeta.setDisplayName(ChatColor.AQUA + target.getName() + ChatColor.GRAY + ": " + playerDistance + " kratki");
                             item.setItemMeta(itemMeta);
                         }
                     }

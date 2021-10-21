@@ -26,13 +26,9 @@ public class KitsManager {
     }
 
     public void giveKits() {
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            if (player.getGameMode() == GameMode.SURVIVAL && PlayerManager.getPlayers().contains(player.getDisplayName())) {
-                if (!playerKit.isEmpty()) {
-                    this.giveClassItems(player, playerKit.get(player.getDisplayName()));
-                }
-            }
-        }
+        Bukkit.getOnlinePlayers().stream()
+                .filter(player -> player.getGameMode() == GameMode.SURVIVAL && PlayerManager.getPlayers().contains(player.getName()))
+                .forEach(player -> this.giveClassItems(player, playerKit.get(player.getName())));
     }
 
     public void giveClassItems(Player player, String kitName) {
@@ -44,9 +40,8 @@ public class KitsManager {
         playerInventory.setBoots(gameKit.getBoots().made());
         playerInventory.setItem(8, new ItemStack(Material.COMPASS));
 
-        for (ItemStack materials : gameKit.getKitMaterials().getMaterials()) {
-            playerInventory.addItem(materials);
-        }
+        gameKit.getKitMaterials().getMaterials()
+                .forEach(playerInventory::addItem);
     }
 
     public static void addKitToPlayer(Player player, String kitName) {

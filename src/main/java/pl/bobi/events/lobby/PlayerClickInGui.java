@@ -22,8 +22,10 @@ public class PlayerClickInGui implements Listener {
 
         if (player == null) return;
         if (e.getInventory().getTitle().equals(ChatColor.AQUA + "Wybor klasy")) {
-            KitsManager.addKitToPlayer(player, ChatColor.stripColor(itemName));
-            player.sendMessage(ChatColor.GOLD + "Wybrales klase: " + itemName);
+            if(!(itemName.equals(" "))) {
+                KitsManager.addKitToPlayer(player, ChatColor.stripColor(itemName));
+                player.sendMessage(ChatColor.GOLD + "Wybrales klase: " + itemName);
+            }
 
             e.setCancelled(true);
             player.closeInventory();

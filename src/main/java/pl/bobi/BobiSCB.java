@@ -10,10 +10,12 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import pl.bobi.commands.StartCommand;
 import pl.bobi.events.ingame.PlayerDeath;
+import pl.bobi.events.ingame.PlayerItemCick;
 import pl.bobi.events.ingame.PlayerItemHeld;
 import pl.bobi.events.lobby.PlayerClickInGui;
 import pl.bobi.events.lobby.PlayerClickItem;
 import pl.bobi.events.overall.*;
+import pl.bobi.kits.KitArrmorItem;
 import pl.bobi.manager.DoubleJumpManager;
 import pl.bobi.manager.GameManager;
 import pl.bobi.utils.Config;
@@ -48,15 +50,19 @@ public final class BobiSCB extends JavaPlugin {
                 new PlayerDeath(gameManager),
                 new BlockDamage(),
                 new DoubleJumpManager(gameManager),
-                new PlayerItemHeld());
+                new PlayerItemHeld(),
+                new PlayerItemCick());
+
         getCommand("start").setExecutor(new StartCommand(gameManager));
 
-        File file = new File(plugin.getDataFolder(), "itemsNames.yml");
+        if (Config.AUTO_KITS_DESCRIPTION) {
+            File file = new File(plugin.getDataFolder(), "itemsNames.yml");
 
-        if (!file.exists())
-            throw new IOException("Nie wczytano itemsNames.yml!");
+            if (!file.exists())
+                throw new IOException("Nie wczytano itemsNames.yml!");
 
-        fileConfiguration = YamlConfiguration.loadConfiguration(file);
+            fileConfiguration = YamlConfiguration.loadConfiguration(file);
+        }
     }
     @Override
     public void onDisable() {

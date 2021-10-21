@@ -7,9 +7,10 @@ import org.bukkit.entity.Player;
 import pl.bobi.BobiSCB;
 import pl.bobi.builders.scoreboards.NewInGameScore;
 import pl.bobi.builders.scoreboards.NewLobbyScore;
-import pl.bobi.tasks.BorderTask;
+import pl.bobi.tasks.InGameTask;
 import pl.bobi.tasks.EndTask;
 import pl.bobi.tasks.StartTask;
+import pl.bobi.utils.Packets;
 
 public class GameManager {
 
@@ -21,8 +22,10 @@ public class GameManager {
     private final KitsManager kitsManager;
 
     private StartTask startTask;
-    private BorderTask inGameScoreTask;
+    private InGameTask inGameTask;
     private EndTask endTask;
+//    private ReaperTask reaperTask;
+
     private final LifesManager livesManager;
     private final DoubleJumpManager doubleJumpManager;
 
@@ -31,7 +34,6 @@ public class GameManager {
         this.kitsManager = new KitsManager(this);
         this.livesManager = new LifesManager(this);
         this.doubleJumpManager = new DoubleJumpManager(this);
-
     }
 
     public void setGameState(GameState gameState) {
@@ -50,28 +52,33 @@ public class GameManager {
                 break;
             case INGAME:
                 if (this.startTask != null) this.startTask.cancel();
-                this.inGameScoreTask = new BorderTask(this);
-                this.inGameScoreTask.runTaskTimer(plugin, 0, 20);
+                this.inGameTask = new InGameTask();
+                this.inGameTask.runTaskTimer(plugin, 0, 20);
                 for (Player player : Bukkit.getOnlinePlayers()) {
                     player.getInventory().clear();
-                    LifesManager.changePlayerLive(player);
+                    LifesManager.changePlayerLive(player, false);
                     player.setAllowFlight(true);
                     player.setFlying(false);
                 }
                 NewInGameScore.createScoreboard();
                 getKitsManager().giveKits();
                 KitsManager.getPlayerKit().clear();
-
                 break;
             case END:
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    player.getInventory().clear();
-                    player.getInventory().setArmorContents(null);
+                    PlayerManager.preparePlayerInventory(player);
+                    Packets.sendTitle(player, ChatColor.GOLD + "Koniec gry!", 60);
                 }
-                Bukkit.broadcastMessage(ChatColor.GOLD + "Koniec gry! Wygral: " + PlayerManager.getPlayers().get(0) + " gz!");
+                Bukkit.broadcastMessage(ChatColor.GOLD + "Koniec gry!");
+                Bukkit.broadcastMessage(ChatColor.AQUA + "Wygrany: " + PlayerManager.getPlayers().get(0));
+                Bukkit.broadcastMessage(ChatColor.GOLD + "GRATULACJE!");
                 this.endTask = new EndTask();
                 this.endTask.runTaskTimer(plugin, 0, 20);
                 break;
         }
+    }
+
+    public enum GameState {
+        LOBBY, STARTING, INGAME, END
     }
 }

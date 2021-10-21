@@ -1,39 +1,36 @@
 package pl.bobi.tasks;
 
-import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import pl.bobi.builders.scoreboards.NewLobbyScore;
 import pl.bobi.manager.GameManager;
-import pl.bobi.manager.GameState;
+import pl.bobi.utils.Packets;
 
 public class StartTask extends BukkitRunnable {
 
     private final GameManager gameManager;
-    @Getter
-    private final NewLobbyScore newLobbyScore;
 
     public StartTask(GameManager gameManager) {
         this.gameManager = gameManager;
-        this.newLobbyScore = new NewLobbyScore();
     }
 
-    private int timeLeft = 2;
+    private int timeLeft = 6;
 
     @Override
     public void run() {
         if (timeLeft == 20) {
             Bukkit.broadcastMessage(ChatColor.GOLD + "Start gry za: " + timeLeft);
-            newLobbyScore.updataScoreData(timeLeft);
+            NewLobbyScore.updataScoreData(timeLeft);
             timeLeft--;
             return;
         }
         timeLeft--;
-        newLobbyScore.updataScoreData(timeLeft);
+        NewLobbyScore.updataScoreData(timeLeft);
 
         if (timeLeft <= 0) {
-            gameManager.setGameState(GameState.INGAME);
+            gameManager.setGameState(GameManager.GameState.INGAME);
             Bukkit.broadcastMessage(ChatColor.BLUE + "GRA ROZPOCZETA, POWODZENIA!");
             this.cancel();
             return;
@@ -41,8 +38,11 @@ public class StartTask extends BukkitRunnable {
 
         if (timeLeft == 10) {
             Bukkit.broadcastMessage(ChatColor.GOLD + "Start gry za: " + timeLeft);
-        } else if (timeLeft <= 5) {
+        } else if (timeLeft <= 3) {
             Bukkit.broadcastMessage(ChatColor.GOLD + "Start gry za: " + timeLeft);
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                Packets.sendTitle(player, ChatColor.RED + "" + timeLeft, 20);
+            }
         }
     }
 }

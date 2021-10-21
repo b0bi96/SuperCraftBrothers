@@ -27,12 +27,12 @@ public class NewLobbyScore {
         ScoreUtils.createTeams(board,
                 Arrays.asList("timer", "online"),
                 Arrays.asList(ChatColor.WHITE + "", ChatColor.GRAY + ""),
-                Arrays.asList(ChatColor.GRAY + "Start za: " + ChatColor.WHITE + "oczekiwanie...", ""));
+                Arrays.asList(ChatColor.WHITE + "Oczekiwanie na graczy...", ""));
 
-        obj.getScore(ChatColor.GRAY + ScoreUtils.getData() + " " + ChatColor.BOLD + Bukkit.getServer().getServerName()).setScore(9);
+        obj.getScore(ChatColor.GRAY + ScoreUtils.getData() + " " + ChatColor.BLACK +  Bukkit.getServer().getServerName()).setScore(9);
         obj.getScore(" ").setScore(8);
-        obj.getScore(ChatColor.GRAY + "Mapa: " + ChatColor.WHITE + Config.MAP_NAME).setScore(7);
-        obj.getScore(ChatColor.GRAY + "Wersja: " + ChatColor.WHITE + Config.PLUGIN_VERSION).setScore(6);
+        obj.getScore(ChatColor.WHITE + "Mapa: " + ChatColor.GREEN + Config.MAP_NAME).setScore(7);
+        obj.getScore(ChatColor.WHITE + "Wersja: " + ChatColor.GREEN + Config.PLUGIN_VERSION).setScore(6);
         obj.getScore("  ").setScore(5);
         obj.getScore(ChatColor.WHITE + "").setScore(4);
         obj.getScore("   ").setScore(3);
@@ -54,7 +54,7 @@ public class NewLobbyScore {
     public static void updataScoreData(int x) {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Scoreboard scoreboard = player.getScoreboard();
-            scoreboard.getTeam("timer").setPrefix(ChatColor.GRAY + "Start za: " + ChatColor.WHITE + x);
+            scoreboard.getTeam("timer").setPrefix(ChatColor.WHITE + "Start za: " + ChatColor.GREEN + x + "s");
             scoreboard.getTeam("timer").setSuffix(" ");
         }
     }
@@ -63,7 +63,7 @@ public class NewLobbyScore {
         for (Player player : Bukkit.getOnlinePlayers()) {
             Scoreboard scoreboard = player.getScoreboard();
             if (scoreboard.getTeam("online") == null) return;
-            scoreboard.getTeam("online").setPrefix(ChatColor.GRAY + "Graczy: " + ChatColor.WHITE + players + "/" + Config.MAX_SLOTS);
+            scoreboard.getTeam("online").setPrefix(ChatColor.WHITE + "Graczy: " + ChatColor.GREEN + players + "/" + Config.MAX_SLOTS);
         }
     }
 }

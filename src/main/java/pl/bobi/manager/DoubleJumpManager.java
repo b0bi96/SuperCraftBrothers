@@ -28,7 +28,7 @@ public class DoubleJumpManager implements Listener {
 
     @EventHandler
     public void onToggleFlight(PlayerToggleFlightEvent event) {
-        if (!(gameManager.getGameState() == GameState.INGAME)) return;
+        if (!(gameManager.getGameState() == GameManager.GameState.INGAME)) return;
 
         Player player = event.getPlayer();
         GameMode gameMode = player.getGameMode();

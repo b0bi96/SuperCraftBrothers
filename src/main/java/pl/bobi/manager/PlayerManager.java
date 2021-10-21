@@ -4,11 +4,15 @@ import lombok.Getter;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.PlayerInventory;
 import pl.bobi.utils.Config;
 import pl.bobi.utils.LocationGet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class PlayerManager {
@@ -17,7 +21,8 @@ public class PlayerManager {
     private static final List<String> specPlayers = new ArrayList<>();
     @Getter
     private static final List<String> players = new ArrayList<>();
-    private static final List<String> loc = Config.SPAWNPOINTS;
+    @Getter
+    private static final Map<String, String> kills = new HashMap<>();
 
     public static void changePlayerState(Player player, PlayerState playerState) {
         final String playerNick = player.getDisplayName();
@@ -45,6 +50,12 @@ public class PlayerManager {
         player.setFoodLevel(20);
     }
 
+    public static void preparePlayerInventory(Player player) {
+        PlayerInventory inv = player.getInventory();
+        inv.clear();
+        inv.setArmorContents(null);
+    }
+
     public static void teleportPlayer(Player player, String place) {
         switch (place) {
             case "random":
@@ -62,12 +73,16 @@ public class PlayerManager {
     }
 
     public static Location teleportPlayerToRandomLoc() {
-        String stringLoc = loc.get(getRandomInt());
+        String stringLoc = Config.SPAWNPOINTS.get(getRandomInt());
 
         return LocationGet.getLocation(stringLoc);
     }
 
     public static Integer getRandomInt() {
         return ThreadLocalRandom.current().nextInt(12);
+    }
+
+    public static String getKilled(String nick) {
+        return kills.get(nick);
     }
 }

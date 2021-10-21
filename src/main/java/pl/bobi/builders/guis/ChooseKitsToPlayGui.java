@@ -6,6 +6,7 @@ import pl.bobi.BobiSCB;
 import pl.bobi.kits.GameKit;
 import pl.bobi.kits.KitDescription;
 import pl.bobi.kits.KitList;
+import pl.bobi.utils.Config;
 
 public class ChooseKitsToPlayGui extends CreateGui {
 
@@ -14,14 +15,17 @@ public class ChooseKitsToPlayGui extends CreateGui {
     }
 
     public void createGui(Player player) {
-        super.addItems(1, KitList.BLAZE.build());
-        super.addItems(2, KitList.ZOMBIE.build());
+        if (Config.AUTO_KITS_DESCRIPTION) {
+            ConfigurationSection section = BobiSCB.getPlugin().getConfig().getConfigurationSection("kits");
 
-        ConfigurationSection section = BobiSCB.getPlugin().getConfig().getConfigurationSection("kits");
-        int x = 0;
-        for (String s : section.getKeys(false)) {
-            GameKit gameKit = new GameKit(s);
-            super.addItems(gameKit.getPlaceInGui().getSlotnumber(), KitDescription.kitDes(s, gameKit.getPlaceInGui().getMaterial(), gameKit));
+            for (String s : section.getKeys(false)) {
+                GameKit gameKit = new GameKit(s);
+                super.addItems(gameKit.getPlaceInGui().getSlotnumber(), KitDescription.kitDes(s, gameKit.getPlaceInGui().getMaterial(), gameKit));
+            }
+        } else {
+            super.addItems(10, KitList.BLAZE.build());
+            super.addItems(11, KitList.ZOMBIE.build());
+            super.addItems(28, KitList.REAPER.build());
         }
         super.openGui(player);
     }

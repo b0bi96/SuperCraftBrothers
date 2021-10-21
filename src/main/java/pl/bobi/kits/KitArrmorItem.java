@@ -8,6 +8,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import pl.bobi.BobiSCB;
+import pl.bobi.utils.Config;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,11 +19,13 @@ import java.util.Map;
 public class KitArrmorItem {
 
     private final String material;
-    private final Map<Enchantment, Integer> enchantments = new HashMap<>();
-    private final List<String> enchantsDes = new ArrayList<>();
+    private final Map<Enchantment, Integer> enchantments;
+    private final List<String> enchantsDes;
 
 
     public KitArrmorItem(String material, String kitName, String type) {
+        this.enchantsDes = new ArrayList<>();
+        this.enchantments = new HashMap<>();
         this.material = material;
 
         ConfigurationSection enchantmentSection = BobiSCB.getPlugin().getConfig().getConfigurationSection("kits." + kitName + ".items." + type + ".enchantments");
@@ -34,7 +37,9 @@ public class KitArrmorItem {
                 if (enchantment != null) {
                     int level = enchantmentSection.getInt(enchantmentKey);
                     enchantments.put(enchantment, level);
-                    enchantsDes.add(enchantment.getName() + level);
+                    if (Config.AUTO_KITS_DESCRIPTION) {
+                        enchantsDes.add(enchantment.getName() + level);
+                    }
                 }
             }
         }

@@ -4,6 +4,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import pl.bobi.builders.items.EmptyGlass;
 
 
 public class CreateGui {
@@ -11,6 +12,10 @@ public class CreateGui {
 
     public CreateGui(String tittle, int slots) {
         this.inventory = Bukkit.getServer().createInventory(null, slots, tittle);
+
+        for (int x = 0; x < slots; x++) {
+            inventory.setItem(x, EmptyGlass.build());
+        }
     }
 
     public void openGui(Player player){

@@ -23,17 +23,17 @@ public class NewInGameScore {
         Objective obj = board.registerNewObjective(ChatColor.GOLD + "BobiSCB", "dummy");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-        obj.getScore(ChatColor.GRAY + ScoreUtils.getData()).setScore(3);
+        obj.getScore(ChatColor.GRAY + ScoreUtils.getData() ).setScore(3);
         obj.getScore(" ").setScore(2);
-        obj.getScore(ChatColor.GRAY + "Gracze: ").setScore(1);
+        obj.getScore(ChatColor.GREEN + "Gracze: ").setScore(1);
         obj.getScore("  ").setScore(0);
         obj.getScore("   ").setScore(-playeringame - 1);
-        obj.getScore(ChatColor.GOLD + "www.bobi.pl").setScore(-playeringame - 2);
+        obj.getScore(ChatColor.GRAY + "(" + Bukkit.getServer().getServerName() + ")").setScore(-playeringame - 2);
+        obj.getScore(ChatColor.GOLD + "www.bobi.pl").setScore(-playeringame - 3);
 
         for (String players : PlayerManager.getPlayers()) {
-            ScoreUtils.createTeamSuffix(board, players, players, ": " + LifesManager.getPlayerLife(players));
+            ScoreUtils.createTeamSuffix(board, players, players, ": " + ChatColor.GOLD + LifesManager.getPlayerLife(players));
             obj.getScore(players).setScore(-playeringame);
-            System.out.println(players);
 
             if (playeringame > 0) {
                 playeringame--;
@@ -56,7 +56,7 @@ public class NewInGameScore {
             scoreboard.getTeam(nick).setSuffix("");
         } else {
             scoreboard.getTeam(nick).setPrefix("");
-            scoreboard.getTeam(nick).setSuffix(": " + LifesManager.getPlayerLife(nick));
+            scoreboard.getTeam(nick).setSuffix(": " + ChatColor.GOLD + LifesManager.getPlayerLife(nick));
         }
     }
 }
